@@ -4,8 +4,8 @@ include <BOSL2/std.scad>
 $fn = 100;
 
 // Main disk parameters
-DISK_RADIUS = 67;  
-DISK_HEIGHT = 4;     
+DISK_RADIUS = 62.5;  
+DISK_HEIGHT = 3;     
 
 // Protrusion parameters
 PROTRUSION_COUNT = 8;
@@ -14,10 +14,13 @@ PROTRUSION_HEIGHT = 9;
 PROTRUSION_DISTANCE_FROM_EDGE = 12.75;
 
 // Handle parameters
-HANDLE_LENGTH = 85;
-HANDLE_WIDTH = 35;    
-HANDLE_HEIGHT = 4;  
-HANDLE_RADIUS = 2;    
+HANDLE_LENGTH = 30;
+HANDLE_WIDTH = 28;    
+HANDLE_HEIGHT = 3;  
+HANDLE_RADIUS = 1; 
+
+THUMB_WIDTH = 15;
+THUMB_LENGTH = 20;   
 
 // Derived values
 PROTRUSION_RADIUS = PROTRUSION_DIAMETER / 2;
@@ -26,11 +29,12 @@ PROTRUSION_PLACEMENT_RADIUS = DISK_RADIUS - PROTRUSION_DISTANCE_FROM_EDGE - PROT
 // Module for creating rounded handle
 module rounded_handle() {
             
-    translate([DISK_RADIUS + HANDLE_LENGTH/4, 0, HANDLE_HEIGHT/2])
+    translate([DISK_RADIUS-4, 0, HANDLE_HEIGHT/2])
         difference() {
-           cuboid([HANDLE_LENGTH, HANDLE_WIDTH, HANDLE_HEIGHT],rounding=1);
-           translate([HANDLE_LENGTH/3, 0, 1])
-                cuboid([HANDLE_LENGTH/6, HANDLE_WIDTH/2, HANDLE_HEIGHT+1],rounding=2);
+           cuboid([HANDLE_LENGTH, HANDLE_WIDTH, HANDLE_HEIGHT],anchor=LEFT, rounding=HANDLE_RADIUS);
+           translate([HANDLE_LENGTH - THUMB_LENGTH - 3, 0, 1])
+                // cuboid([THUMB_LENGTH, THUMB_WIDTH, HANDLE_HEIGHT+1],anchor=LEFT, rounding=8, edges = [FWD+RIGHT,BACK+RIGHT], round=2);
+                cuboid([THUMB_LENGTH, THUMB_WIDTH, HANDLE_HEIGHT+1],anchor=LEFT, rounding=HANDLE_RADIUS + 1);
         };
     
 }
